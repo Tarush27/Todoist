@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this,TaskActivity.class);
-            startActivityForResult(i,1);
+            Intent i = new Intent(MainActivity.this, TaskActivity.class);
+            startActivityForResult(i, 1);
         });
 
     }
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String str = null;
-        Log.d("MainActivity",data.toString());
+        Log.d("MainActivity", data.toString());
         if (data != null) {
             str = data.getStringExtra("message");
         }
