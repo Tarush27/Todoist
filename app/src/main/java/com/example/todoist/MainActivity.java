@@ -15,14 +15,14 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
 
-    private TextView receive_text;
+//    private TextView receive_text;
     private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        receive_text = findViewById(R.id.receive_text);
+//        receive_text = findViewById(R.id.receive_text);
         fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(v -> {
@@ -40,6 +40,6 @@ public class MainActivity extends AppCompatActivity {
         if (data != null) {
             str = data.getStringExtra("message");
         }
-        receive_text.setText(str);
+//        receive_text.setText(str);
     }
 }
