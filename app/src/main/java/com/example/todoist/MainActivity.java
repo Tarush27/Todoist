@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //    private TextView receive_text;
+
     private FloatingActionButton fab;
 
     @Override
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 //        receive_text = findViewById(R.id.receive_text);
         fab = findViewById(R.id.fab);
 
+
+        // initializing click listener
         fab.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, TaskActivity.class);
             startActivityForResult(i, 1);
