@@ -13,15 +13,14 @@ import android.widget.EditText;
 public class TaskActivity extends AppCompatActivity {
 
     private EditText title;
-
-    //    private Button save;
+    private EditText note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_layout);
-//        save = findViewById(R.id.save);
         title = findViewById(R.id.title);
 
+        note = findViewById(R.id.note);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -45,8 +44,10 @@ public class TaskActivity extends AppCompatActivity {
 
     private void setTaskInResult() {
         String str = title.getText().toString().trim();
+        String str1 = note.getText().toString().trim();
         Bundle b = new Bundle();
         b.putString("message", str);
+        b.putString("message1",str1);
         Intent i = new Intent();
         i.putExtras(b);
         setResult(1, i);
