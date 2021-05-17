@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SortedList;
 
@@ -18,10 +19,11 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
-    private List<TaskModel> taskModelList;
-
-    public TaskAdapter(List<TaskModel> taskModelList) {
+    private final List<TaskModel> taskModelList;
+    private final ToolbarOverlapCallBack toolbarOverlapCallBack;
+    public TaskAdapter(List<TaskModel> taskModelList,ToolbarOverlapCallBack toolbarOverlapCallBack) {
         this.taskModelList = taskModelList;
+        this.toolbarOverlapCallBack = toolbarOverlapCallBack;
     }
 
     @NonNull
@@ -36,6 +38,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         TaskModel taskModel = taskModelList.get(position);
         holder.title.setText(taskModel.getTitle());
         holder.note.setText(taskModel.getNote());
+        holder.mCardView.setOnLongClickListener(v -> {
+            toolbarOverlapCallBack.onToolbarOverlap();
+            return true;
+        });
+        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onActionbarOverlap());
+
     }
 
     public void updateAdapter(){
@@ -58,16 +66,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             mCardView = itemView.findViewById(R.id.mCardView);
             title = itemView.findViewById(R.id.title);
             note = itemView.findViewById(R.id.note);
-            itemView.setOnLongClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "item clicks", Toast.LENGTH_SHORT).show();
-                return true;
-            });
+
         }
 
-//        @Override
-//        public boolean onLongClick(View v) {
-//            Toast.makeText(v.getContext(), "item clicks", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
+
     }
+
 }

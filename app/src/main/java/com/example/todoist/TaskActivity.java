@@ -43,13 +43,32 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void setTaskInResult() {
+//        String str = title.getText().toString().trim();
+//        String str1 = note.getText().toString().trim();
+//        Bundle b = new Bundle();
+//        b.putString("message", str);
+//        b.putString("message1",str1);
+//        Intent i = new Intent();
+//        i.putExtras(b);
+//        if (str.isEmpty() && str1.isEmpty()) {
+//            setResult(RESULT_CANCELED,i);
+//        }
+//        else {
+//            setResult(1,i);
+//        }
+
         String str = title.getText().toString().trim();
         String str1 = note.getText().toString().trim();
         Bundle b = new Bundle();
-        b.putString("message", str);
+        b.putString("message",str);
         b.putString("message1",str1);
         Intent i = new Intent();
         i.putExtras(b);
-        setResult(1, i);
+        if (str.isEmpty() && str1.isEmpty()){
+            setResult(RESULT_CANCELED);
+        }
+        else {
+            setResult(1, i);
+        }
     }
 }
