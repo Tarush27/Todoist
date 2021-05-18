@@ -95,20 +95,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-//        if (resultCode == RESULT_CANCELED){
-//            Toast.makeText(this, "Empty Note Discarded", Toast.LENGTH_SHORT).show();
-//        }
-//        if (data != null){
-//            if(resultCode == 1) {
-//                title = data.getStringExtra("message");
-//                note = data.getStringExtra("message1");
-//                Log.d("MainActivity", data.toString());
-//                Log.d("MainActivity", title);
-//                Log.d("MainActivity", note);
-//            }
-//        }
-
         if (data == null) {
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Empty Note Discarded", Toast.LENGTH_LONG).show();
@@ -117,20 +103,16 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             if (data != null) {
                 title = data.getStringExtra("message");
                 note = data.getStringExtra("message1");
-                Log.d("MainActivity", data.toString());
-                Log.d("MainActivity", title);
-                Log.d("MainActivity", note);
+                prepareTaskList(title, note);
+                taskAdapter.updateAdapter();
             }
         }
 
-        prepareTaskList(title, note);
-        Collections.reverse(taskModelList);
-        taskAdapter.updateAdapter();
     }
 
     private void prepareTaskList(String title, String note) {
         TaskModel taskModel = new TaskModel(title, note);
-        taskModelList.add(taskModel);
+        taskModelList.add(0,taskModel);
     }
 
 
