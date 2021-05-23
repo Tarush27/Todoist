@@ -1,15 +1,21 @@
 package com.example.todoist;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-
 public class TaskModel{
     String title,note;
+    int color;
 
-    public TaskModel(String title, String note) {
+    public TaskModel(String title, String note, int color) {
         this.title = title;
         this.note = note;
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public String getNote() {
@@ -27,6 +33,5 @@ public class TaskModel{
     public void setTitle(String title) {
         this.title = title;
     }
-
 
 }

@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,28 +25,30 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements ToolbarOverlapCallBack {
 
-
-    String title, note;
     private ArrayList<TaskModel> taskModelList = new ArrayList<>();
     private RecyclerView recyclerView;
     private TaskAdapter taskAdapter;
-    Toolbar toolbar;
+    LinearLayout linearLayoutToolbar;
     Toolbar actionbarOverlap;
+    TextView actionbarText;
     FloatingActionButton fab;
+    String title, note;
+    int tarush = getTarush();
+    ImageView cross_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        toolbar = findViewById(R.id.toolbar);
+        linearLayoutToolbar = findViewById(R.id.linearLayoutToolbar);
         actionbarOverlap = findViewById(R.id.actionbarOverlap);
-        setSupportActionBar(toolbar);
+        actionbarOverlap.setTitle("");
+        actionbarText = findViewById(R.id.actionbarText);
+        cross_icon = findViewById(R.id.cross_icon);
+        cross_icon.setVisibility(View.INVISIBLE);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, TaskActivity.class);
@@ -103,33 +108,73 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             if (data != null) {
                 title = data.getStringExtra("message");
                 note = data.getStringExtra("message1");
-                prepareTaskList(title, note);
+                prepareTaskList(title, note, tarush);
                 taskAdapter.updateAdapter();
             }
         }
 
     }
 
-    private void prepareTaskList(String title, String note) {
-        TaskModel taskModel = new TaskModel(title, note);
-        taskModelList.add(0,taskModel);
+    private void prepareTaskList(String title, String note, int color) {
+        TaskModel taskModel = new TaskModel(title, note, color);
+        taskModelList.add(0, taskModel);
+    }
+
+    private void prepareTaskList(int color) {
+        TaskModel taskModel = new TaskModel(title, note, color);
+        taskModelList.add(0, taskModel);
     }
 
 
     @Override
-    public void onToolbarOverlap() {
-        toolbar.setVisibility(View.INVISIBLE);
+    public void onNoteLongClick() {
+        linearLayoutToolbar.setVisibility(View.INVISIBLE);
+        setSupportActionBar(actionbarOverlap);
+        actionbarOverlap.setVisibility(View.VISIBLE);
+        cross_icon.setVisibility(View.VISIBLE);
+        cross_icon.setOnClickListener(v -> {
+            linearLayoutToolbar.setVisibility(View.VISIBLE);
+            actionbarOverlap.setVisibility(View.INVISIBLE);
+        });
     }
 
     @Override
-    public void onActionbarOverlap() {
+    public void onNoteSingleClick() {
         actionbarOverlap.setVisibility(View.INVISIBLE);
-//        setSupportActionBar(actionbarOverlap);
+        linearLayoutToolbar.setVisibility(View.VISIBLE);
+
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu,menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.color:
+                ColorSelectorFragment fragment = new ColorSelectorFragment();
+                fragment.setColorSelectedCallback(color -> {
+                    fragment.dismiss();
+                    prepareTaskList(color);
+                    taskAdapter.updateAdapter();
+                });
+                fragment.show(getSupportFragmentManager(), "Dialog Fragment");
+                return true;
+            case R.id.reminder:
+                Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.pin:
+                Toast.makeText(this, "Hy", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public int getTarush() {
+        return tarush;
+    }
 }

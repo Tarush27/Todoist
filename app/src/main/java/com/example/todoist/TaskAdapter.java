@@ -4,24 +4,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
 
 import com.google.android.material.card.MaterialCardView;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final List<TaskModel> taskModelList;
     private final ToolbarOverlapCallBack toolbarOverlapCallBack;
-    public TaskAdapter(List<TaskModel> taskModelList,ToolbarOverlapCallBack toolbarOverlapCallBack) {
+
+    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack) {
         this.taskModelList = taskModelList;
         this.toolbarOverlapCallBack = toolbarOverlapCallBack;
     }
@@ -29,7 +26,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_model,parent,false);
+        View v1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_model, parent, false);
         return new ViewHolder(v1);
     }
 
@@ -38,15 +35,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         TaskModel taskModel = taskModelList.get(position);
         holder.title.setText(taskModel.getTitle());
         holder.note.setText(taskModel.getNote());
+        holder.mCardView.setCardBackgroundColor(taskModel.getColor());
         holder.mCardView.setOnLongClickListener(v -> {
-            toolbarOverlapCallBack.onToolbarOverlap();
+            toolbarOverlapCallBack.onNoteLongClick();
             return true;
         });
-        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onActionbarOverlap());
+        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onNoteSingleClick());
 
     }
 
-    public void updateAdapter(){
+    public void updateAdapter() {
         notifyDataSetChanged();
     }
 
@@ -55,11 +53,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return taskModelList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         MaterialCardView mCardView;
         TextView title;
         TextView note;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 

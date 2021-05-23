@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+    <include layout="@layout/activity_layout_overlap" />
 
-    <include layout="@layout/activity_layout_overlap"/>
+    <include layout="@layout/linear_layout_overlap" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -24,11 +23,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginVertical="15dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="15dp"
         android:backgroundTint="#03A9F4"
-        android:src="@drawable/add"
-        android:layout_alignParentRight="true" />
+        android:src="@drawable/add" />
 
 </RelativeLayout>
