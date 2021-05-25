@@ -1,7 +1,9 @@
 package com.example.todoist;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,9 +39,9 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     TextView actionbarText;
     FloatingActionButton fab;
     String title, note;
-    int tarush = getTarush();
     ImageView cross_icon;
-
+    int longPressed;
+    int singlePressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,26 +111,24 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             if (data != null) {
                 title = data.getStringExtra("message");
                 note = data.getStringExtra("message1");
-                prepareTaskList(title, note, tarush);
+                prepareTaskList(title, note);
                 taskAdapter.updateAdapter();
             }
         }
 
     }
 
-    private void prepareTaskList(String title, String note, int color) {
-        TaskModel taskModel = new TaskModel(title, note, color);
-        taskModelList.add(0, taskModel);
-    }
-
-    private void prepareTaskList(int color) {
+    private void prepareTaskList(String title, String note) {
+        int color = Color.WHITE;
         TaskModel taskModel = new TaskModel(title, note, color);
         taskModelList.add(0, taskModel);
     }
 
 
     @Override
-    public void onNoteLongClick() {
+    public void onNoteLongClick(int position) {
+        int borderColor = Color.BLACK;
+        longPressed = position;
         linearLayoutToolbar.setVisibility(View.INVISIBLE);
         setSupportActionBar(actionbarOverlap);
         actionbarOverlap.setVisibility(View.VISIBLE);
@@ -135,14 +136,21 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         cross_icon.setOnClickListener(v -> {
             linearLayoutToolbar.setVisibility(View.VISIBLE);
             actionbarOverlap.setVisibility(View.INVISIBLE);
+            taskModelList.get(longPressed).setBorderColor(Color.WHITE);
+            taskAdapter.updateAdapter();
         });
+        taskModelList.get(longPressed).setBorderColor(borderColor);
+        taskAdapter.updateAdapter();
     }
 
     @Override
-    public void onNoteSingleClick() {
+    public void onNoteSingleClick(int position) {
+        singlePressed = position;
         actionbarOverlap.setVisibility(View.INVISIBLE);
         linearLayoutToolbar.setVisibility(View.VISIBLE);
-
+        int removeBorderColor = Color.WHITE;
+        taskModelList.get(singlePressed).setBorderColor(removeBorderColor);
+        taskAdapter.updateAdapter();
     }
 
     @Override
@@ -158,13 +166,17 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 ColorSelectorFragment fragment = new ColorSelectorFragment();
                 fragment.setColorSelectedCallback(color -> {
                     fragment.dismiss();
-                    prepareTaskList(color);
+                    actionbarOverlap.setVisibility(View.INVISIBLE);
+                    linearLayoutToolbar.setVisibility(View.VISIBLE);
+                    taskModelList.get(longPressed).setColor(color);
+                    taskModelList.get(singlePressed).setBorderColor(Color.WHITE);
                     taskAdapter.updateAdapter();
                 });
                 fragment.show(getSupportFragmentManager(), "Dialog Fragment");
                 return true;
             case R.id.reminder:
-                Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+                ReminderFragment reminderFragment = new ReminderFragment();
+                reminderFragment.show(getSupportFragmentManager(),"Reminder Fragment");
                 return true;
             case R.id.pin:
                 Toast.makeText(this, "Hy", Toast.LENGTH_SHORT).show();
@@ -174,7 +186,4 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         }
     }
 
-    public int getTarush() {
-        return tarush;
-    }
 }
