@@ -1,6 +1,6 @@
 package com.example.todoist;
 
 public interface ToolbarOverlapCallBack {
-    void onNoteLongClick();
-    void onNoteSingleClick();
+    void onNoteLongClick(int position);
+    void onNoteSingleClick(int position);
 }
