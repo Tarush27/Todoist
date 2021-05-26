@@ -1,5 +1,7 @@
 package com.example.todoist;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +38,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         holder.title.setText(taskModel.getTitle());
         holder.note.setText(taskModel.getNote());
         holder.mCardView.setCardBackgroundColor(taskModel.getColor());
+        holder.mCardView.setStrokeColor(taskModel.getBorderColor());
+        holder.mCardView.setStrokeWidth(4);
         holder.mCardView.setOnLongClickListener(v -> {
-            toolbarOverlapCallBack.onNoteLongClick();
+            toolbarOverlapCallBack.onNoteLongClick(position);
             return true;
         });
-        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onNoteSingleClick());
+        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onNoteSingleClick(position));
 
     }
 
