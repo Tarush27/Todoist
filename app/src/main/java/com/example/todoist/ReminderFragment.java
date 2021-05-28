@@ -1,5 +1,6 @@
 package com.example.todoist;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,8 @@ public class ReminderFragment extends DialogFragment {
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
         tabLayout.addTab(tabLayout.newTab().setText(R.string.time));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF0000"));
+        tabLayout.setTabTextColors(Color.parseColor("#000000"),Color.parseColor("#000000"));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.place));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
