@@ -2,32 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/makeACopy"
-        android:title="Make a copy" />
+        android:id="@+id/delete"
+        android:title="Delete" />
     <item
         android:id="@+id/send"
         android:title="Send" />
-    <item
-        android:id="@+id/gDocs"
-        android:title="Copy to Google Docs" />
-    <item
-        android:id="@+id/archive"
-        android:title="Archive" />
-    <item
-        android:id="@+id/color"
-        android:icon="@drawable/ic_color"
-        android:title="Color"
-        app:showAsAction="always" />
     <item
         android:id="@+id/reminder"
         android:icon="@drawable/ic_alert"
         android:title="Reminder"
         app:showAsAction="always" />
     <item
-        android:id="@+id/pin"
-        android:icon="@drawable/ic_pin"
-        android:title="Pin"
+        android:id="@+id/color"
+        android:icon="@drawable/ic_color"
+        android:title="Color"
         app:showAsAction="always" />
-
 
 </menu>

@@ -26,6 +26,8 @@ public class ReminderFragment extends DialogFragment {
     FragmentTransaction fragmentTransaction;
     Button save,cancel;
 
+    private SaveTimeAndDateCallBack saveTimeAndDateCallBack;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,7 +80,12 @@ public class ReminderFragment extends DialogFragment {
 
             }
         });
-//        save.setOnClickListener(v -> Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show());
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTimeAndDateCallBack.onSaveTimeAndDate();
+            }
+        });
         cancel.setOnClickListener(v -> dismiss());
     }
 

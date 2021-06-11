@@ -30,7 +30,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ToolbarOverlapCallBack {
+public class MainActivity extends AppCompatActivity implements ToolbarOverlapCallBack,SaveTimeAndDateCallBack {
 
     private ArrayList<TaskModel> taskModelList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     ImageView cross_icon;
     int longPressed;
     int singlePressed;
+    int delPos;
     DrawerLayout drawerLayout;
     ImageView list;
     NavigationView nav_view;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         loadData();
 
         recyclerView = findViewById(R.id.recyclerView);
-        taskAdapter = new TaskAdapter(taskModelList, this);
+        taskAdapter = new TaskAdapter(taskModelList, this,this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -178,6 +179,26 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         taskModelList.get(singlePressed).setBorderColor(removeBorderColor);
         taskAdapter.updateAdapter();
     }
+    @Override
+    public void onSaveTimeAndDate() {
+
+    }
+
+    @Override
+    public void onDeleteNote(int position) {
+        delPos = position;
+        taskModelList.remove(delPos);
+        Log.d("MainActivity",delPos + "");
+        taskAdapter.updateAdapter();
+    }
+
+//    @Override
+//    public void onDeleteNote(int position) {
+//        delPos = position;
+//        taskModelList.remove(delPos);
+//        Log.d("MainActivity",delPos + "");
+//        taskAdapter.updateAdapter();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,12 +225,17 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 ReminderFragment reminderFragment = new ReminderFragment();
                 reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");
                 return true;
-            case R.id.pin:
-                Toast.makeText(this, "Hy", Toast.LENGTH_SHORT).show();
+            case R.id.delete:
+//                Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
+//                taskModelList.remove(1);
+//                taskAdapter.updateAdapter();
+//                onDeleteNote(delPos);
+                    onDeleteNote(delPos);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
 }

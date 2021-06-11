@@ -19,10 +19,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final List<TaskModel> taskModelList;
     private final ToolbarOverlapCallBack toolbarOverlapCallBack;
+    private final SaveTimeAndDateCallBack saveTimeAndDateCallBack;
 
-    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack) {
+    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack,SaveTimeAndDateCallBack saveTimeAndDateCallBack) {
         this.taskModelList = taskModelList;
         this.toolbarOverlapCallBack = toolbarOverlapCallBack;
+        this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
     }
 
     @NonNull
@@ -45,6 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             return true;
         });
         holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onNoteSingleClick(position));
+        holder.mCardView.setOnClickListener(v -> saveTimeAndDateCallBack.onDeleteNote(position));
 
     }
 
