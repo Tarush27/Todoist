@@ -1,6 +1,5 @@
 package com.example.todoist;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,11 +17,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,17 +43,32 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     ImageView cross_icon;
     int longPressed;
     int singlePressed;
+    DrawerLayout drawerLayout;
+    ImageView list;
+    NavigationView nav_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        nav_view = findViewById(R.id.nav_view);
         linearLayoutToolbar = findViewById(R.id.linearLayoutToolbar);
         actionbarOverlap = findViewById(R.id.actionbarOverlap);
         actionbarOverlap.setTitle("");
         actionbarText = findViewById(R.id.actionbarText);
+        list = findViewById(R.id.list);
         cross_icon = findViewById(R.id.cross_icon);
         cross_icon.setVisibility(View.INVISIBLE);
         fab = findViewById(R.id.fab);
+        list.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        nav_view.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.notes:
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    break;
+            }
+            return true;
+        });
         fab.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, TaskActivity.class);
             startActivityForResult(i, 1);
@@ -65,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     private void loadData() {
@@ -176,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 return true;
             case R.id.reminder:
                 ReminderFragment reminderFragment = new ReminderFragment();
-                reminderFragment.show(getSupportFragmentManager(),"Reminder Fragment");
+                reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");
                 return true;
             case R.id.pin:
                 Toast.makeText(this, "Hy", Toast.LENGTH_SHORT).show();

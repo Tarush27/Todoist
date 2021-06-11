@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class ReminderFragment extends DialogFragment {
     Fragment fragment = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    Button save,cancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +36,8 @@ public class ReminderFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        save = view.findViewById(R.id.save);
+        cancel = view.findViewById(R.id.cancel);
         tabLayout = view.findViewById(R.id.tabLayout);
         frame_layout = view.findViewById(R.id.frameOne);
         fragment = new TimeFragment();
@@ -43,8 +47,8 @@ public class ReminderFragment extends DialogFragment {
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
         tabLayout.addTab(tabLayout.newTab().setText(R.string.time));
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF0000"));
-        tabLayout.setTabTextColors(Color.parseColor("#000000"),Color.parseColor("#000000"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#1E88E5"));
+        tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.place));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -74,5 +78,8 @@ public class ReminderFragment extends DialogFragment {
 
             }
         });
+//        save.setOnClickListener(v -> Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show());
+        cancel.setOnClickListener(v -> dismiss());
     }
+
 }
