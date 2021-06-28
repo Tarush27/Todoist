@@ -1,6 +1,5 @@
 package com.example.todoist;
 
 public interface SaveTimeAndDateCallBack {
-    void onSaveTimeAndDate();
-    void onDeleteNote(int position);
+    void onSaveTimeAndDate(String date,String time);
 }

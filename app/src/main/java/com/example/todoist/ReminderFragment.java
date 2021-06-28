@@ -17,16 +17,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class ReminderFragment extends DialogFragment {
+public class ReminderFragment extends DialogFragment implements SaveDateAndTime {
 
     TabLayout tabLayout;
     FrameLayout frame_layout;
     Fragment fragment = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    Button save,cancel;
+    Button save, cancel;
 
-    private SaveTimeAndDateCallBack saveTimeAndDateCallBack;
+    SaveTimeAndDateCallBack saveTimeAndDateCallBack;
+    String date, time;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,13 +81,21 @@ public class ReminderFragment extends DialogFragment {
 
             }
         });
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveTimeAndDateCallBack.onSaveTimeAndDate();
-            }
-        });
+        save.setOnClickListener(v -> saveTimeAndDateCallBack.onSaveTimeAndDate(date, time));
         cancel.setOnClickListener(v -> dismiss());
     }
 
+//    void setSaveTimeAndDateCallBack(SaveTimeAndDateCallBack saveTimeAndDateCallBack) {
+//        this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
+//    }
+
+    @Override
+    public void onSaveDate(String date) {
+        this.date = date;
+    }
+
+    @Override
+    public void onSaveTime(String time) {
+        this.time = time;
+    }
 }

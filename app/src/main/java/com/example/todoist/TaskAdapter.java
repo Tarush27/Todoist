@@ -1,14 +1,11 @@
 package com.example.todoist;
 
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -19,12 +16,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final List<TaskModel> taskModelList;
     private final ToolbarOverlapCallBack toolbarOverlapCallBack;
-    private final SaveTimeAndDateCallBack saveTimeAndDateCallBack;
+    private DeleteNoteInterface deleteNoteInterface;
 
-    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack,SaveTimeAndDateCallBack saveTimeAndDateCallBack) {
+    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack) {
         this.taskModelList = taskModelList;
         this.toolbarOverlapCallBack = toolbarOverlapCallBack;
-        this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
+//        this.deleteNoteInterface = deleteNoteInterface;
     }
 
     @NonNull
@@ -46,8 +43,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             toolbarOverlapCallBack.onNoteLongClick(position);
             return true;
         });
-        holder.mCardView.setOnClickListener(v -> toolbarOverlapCallBack.onNoteSingleClick(position));
-        holder.mCardView.setOnClickListener(v -> saveTimeAndDateCallBack.onDeleteNote(position));
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toolbarOverlapCallBack.onNoteSingleClick(position);
+//                deleteNoteInterface.DeleteNote(position);
+            }
+        });
 
     }
 
@@ -74,8 +76,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             note = itemView.findViewById(R.id.note);
 
         }
-
-
     }
+
 
 }

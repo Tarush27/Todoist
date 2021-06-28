@@ -25,6 +25,7 @@ public class TimeFragment extends Fragment {
 
     TextView datePicker, timePicker;
     DatePickerDialog.OnDateSetListener onDateSetListener;
+    SaveDateAndTime saveDateAndTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class TimeFragment extends Fragment {
                         R.style.Theme_MaterialComponents_DayNight_Dialog_MinWidth, onDateSetListener = (view1, year1, month1, dayOfMonth) -> {
                     String date = dayOfMonth + "-" + (month1 + 1) + "-" + year1;
                     datePicker.setText(date);
+                    saveDateAndTime.onSaveDate(date);
                 }, year, month, day);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -63,21 +65,26 @@ public class TimeFragment extends Fragment {
                 return true;
             });
             p.show();
+
         });
         timePicker.setOnClickListener(v -> {
             PopupMenu p1 = new PopupMenu(view.getContext(), timePicker);
             p1.getMenuInflater().inflate(R.menu.popup_one, p1.getMenu());
             p1.setOnMenuItemClickListener(item -> {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), (view12, hourOfDay, minute1) -> {
-                    calendar.set(0, 0, 0, hourOfDay, minute1);
-                    timePicker.setText(DateFormat.format("hh:mm aa", calendar));
-                }, 12, 0, false);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(),
+                        (timePickerView, hourOfDay, minutes) -> {
+                            calendar.set(0, 0, 0, hourOfDay, minutes);
+                            String time = (String) DateFormat.format("hh:mm aa", calendar);
+                            timePicker.setText(time);
+                            saveDateAndTime.onSaveTime(time);
+                        }, 12, 0, false);
                 timePickerDialog.updateTime(hour, minute);
                 timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
                 return true;
             });
             p1.show();
+
         });
         return view;
     }

@@ -2,6 +2,7 @@ package com.example.todoist;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class TaskActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
 
         note = findViewById(R.id.note);
+        Toolbar toolbar = findViewById(R.id.taskLayoutToolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

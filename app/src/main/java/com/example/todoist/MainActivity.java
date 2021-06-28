@@ -1,5 +1,6 @@
 package com.example.todoist;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,14 +9,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -30,7 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ToolbarOverlapCallBack,SaveTimeAndDateCallBack {
+public class MainActivity extends AppCompatActivity implements ToolbarOverlapCallBack, SaveTimeAndDateCallBack {
 
     private ArrayList<TaskModel> taskModelList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -39,18 +45,64 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     Toolbar actionbarOverlap;
     TextView actionbarText;
     FloatingActionButton fab;
+    Button switch_btn;
+    SwitchCompat mySwitch;
     String title, note;
     ImageView cross_icon;
     int longPressed;
     int singlePressed;
-    int delPos;
     DrawerLayout drawerLayout;
     ImageView list;
     NavigationView nav_view;
+
+    //    String date,time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//            setTheme(R.style.DarkTheme);
+//        }
+//        else{
+//            setTheme(R.style.AppTheme);
+//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        switch_btn = findViewById(R.id.switch_btn);
+//        mySwitch = findViewById(R.id.mySwitch);
+//        SharedPreferences sp = getSharedPreferences("Mode", MODE_PRIVATE);
+//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sp.edit();
+//        final boolean isDarkMode = sp.getBoolean("isDarkMode", true);
+//        if (isDarkMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            mySwitch.setChecked(true);
+//        }
+//        SharedPreferences sharedPrefs = getSharedPreferences("mode",MODE_PRIVATE);
+//        final boolean isDark = sharedPrefs.getBoolean("isDarkMode",true);
+//        if (isDark){
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//            mySwitch.setChecked(true);
+//        }
+//        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked){
+//                    SharedPreferences.Editor editor = getSharedPreferences("mode",MODE_PRIVATE).edit();
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                    mySwitch.setChecked(true);
+//                    editor.putBoolean("isDarkMode",true);
+//                    editor.apply();
+//                }
+//                else{
+//                    SharedPreferences.Editor editor = getSharedPreferences("mode",MODE_PRIVATE).edit();
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                    mySwitch.setChecked(false);
+//                    editor.putBoolean("isDarkMode",false);
+//                    editor.apply();
+//                }
+//                finish();
+//                startActivity(new Intent(MainActivity.this, MainActivity.this.getClass()));
+//
+//            }
+//        });
         drawerLayout = findViewById(R.id.drawerLayout);
         nav_view = findViewById(R.id.nav_view);
         linearLayoutToolbar = findViewById(R.id.linearLayoutToolbar);
@@ -63,13 +115,43 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         fab = findViewById(R.id.fab);
         list.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
         nav_view.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.notes:
                     drawerLayout.closeDrawer(GravityCompat.START);
                     break;
+
             }
             return true;
         });
+
+//        SharedPreferences sp = getSharedPreferences("Mode", MODE_PRIVATE);
+//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sp.edit();
+//        final boolean isDarkMode = sp.getBoolean("DM", false);
+//        if (isDarkMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//            switch_btn.setClickable(true);
+//            switch_btn.setEnabled(true);
+//        }
+//        switch_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                  switch_btn.setClickable(true);
+//                    switch_btn.setEnabled(true);
+//                    editor.putBoolean("DM", true);
+//                    editor.apply();
+//                } else {
+//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                  switch_btn.setClickable(false);
+//                    switch_btn.setEnabled(false);
+//                    editor.putBoolean("DM", false);
+//                    editor.apply();
+//                }
+//
+//
+//            }
+//        });
         fab.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, TaskActivity.class);
             startActivityForResult(i, 1);
@@ -78,18 +160,18 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         loadData();
 
         recyclerView = findViewById(R.id.recyclerView);
-        taskAdapter = new TaskAdapter(taskModelList, this,this);
+        taskAdapter = new TaskAdapter(taskModelList, this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
+
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -154,19 +236,18 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
 
     @Override
     public void onNoteLongClick(int position) {
-        int borderColor = Color.BLACK;
         longPressed = position;
         linearLayoutToolbar.setVisibility(View.INVISIBLE);
         setSupportActionBar(actionbarOverlap);
         actionbarOverlap.setVisibility(View.VISIBLE);
         cross_icon.setVisibility(View.VISIBLE);
+        taskModelList.get(longPressed).setBorderColor(Color.BLACK);
         cross_icon.setOnClickListener(v -> {
             linearLayoutToolbar.setVisibility(View.VISIBLE);
             actionbarOverlap.setVisibility(View.INVISIBLE);
             taskModelList.get(longPressed).setBorderColor(Color.WHITE);
             taskAdapter.updateAdapter();
         });
-        taskModelList.get(longPressed).setBorderColor(borderColor);
         taskAdapter.updateAdapter();
     }
 
@@ -175,30 +256,16 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         singlePressed = position;
         actionbarOverlap.setVisibility(View.INVISIBLE);
         linearLayoutToolbar.setVisibility(View.VISIBLE);
-        int removeBorderColor = Color.WHITE;
-        taskModelList.get(singlePressed).setBorderColor(removeBorderColor);
-        taskAdapter.updateAdapter();
-    }
-    @Override
-    public void onSaveTimeAndDate() {
-
-    }
-
-    @Override
-    public void onDeleteNote(int position) {
-        delPos = position;
-        taskModelList.remove(delPos);
-        Log.d("MainActivity",delPos + "");
+        taskModelList.get(singlePressed).setBorderColor(Color.WHITE);
         taskAdapter.updateAdapter();
     }
 
-//    @Override
-//    public void onDeleteNote(int position) {
-//        delPos = position;
-//        taskModelList.remove(delPos);
-//        Log.d("MainActivity",delPos + "");
-//        taskAdapter.updateAdapter();
-//    }
+    @Override
+    public void onSaveTimeAndDate(String date, String time) {
+        taskModelList.get(longPressed).setNote(date);
+        taskModelList.get(longPressed).setNote(time);
+        taskAdapter.updateAdapter();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -216,21 +283,30 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                     actionbarOverlap.setVisibility(View.INVISIBLE);
                     linearLayoutToolbar.setVisibility(View.VISIBLE);
                     taskModelList.get(longPressed).setColor(color);
-                    taskModelList.get(singlePressed).setBorderColor(Color.WHITE);
+                    taskModelList.get(longPressed).setBorderColor(Color.WHITE);
                     taskAdapter.updateAdapter();
                 });
                 fragment.show(getSupportFragmentManager(), "Dialog Fragment");
                 return true;
             case R.id.reminder:
                 ReminderFragment reminderFragment = new ReminderFragment();
+//                reminderFragment.setSaveTimeAndDateCallBack((date, time) -> {
+//                    reminderFragment.dismiss();
+//                    this.date = date;
+//                    this.time = time;
+//                    taskModelList.get(longPressed).setNote(date);
+//                    Log.d("MainActivity",date + "");
+//                    taskModelList.get(longPressed).setNote(time);
+//                    Log.d("MainActivity",time + "");
+//                    taskAdapter.updateAdapter();
+//                });
+                reminderFragment.saveTimeAndDateCallBack.onSaveTimeAndDate(reminderFragment.date, reminderFragment.time);
                 reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");
                 return true;
             case R.id.delete:
-//                Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show();
-//                taskModelList.remove(1);
-//                taskAdapter.updateAdapter();
-//                onDeleteNote(delPos);
-                    onDeleteNote(delPos);
+//                taskModelList.remove(delNotePos);
+                return true;
+            case R.id.send:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

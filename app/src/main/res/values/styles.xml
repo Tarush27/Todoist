@@ -5,9 +5,24 @@
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@android:color/holo_purple</item>
+        <item name="background_color">#FFFFFF</item>
+        <item name="cardBackground">#FFFFFF</item>
+        <item name="text_color">#212121</item>
+        <item name="iconColor">#212121</item>
+        <item name="buttonColor">#ffffff</item>
     </style>
+
+    <style name="DarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="background_color">#212121</item>
+        <item name="cardBackground">#212121</item>
+        <item name="text_color">#ffffff</item>
+        <item name="iconColor">#ffffff</item>
+        <item name="buttonColor">#212121</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
 </resources>
