@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="378dp"
         android:layout_height="320dp"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView

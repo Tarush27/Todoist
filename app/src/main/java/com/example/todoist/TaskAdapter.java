@@ -1,8 +1,12 @@
 package com.example.todoist;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +20,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private final List<TaskModel> taskModelList;
     private final ToolbarOverlapCallBack toolbarOverlapCallBack;
-    private DeleteNoteInterface deleteNoteInterface;
+    SaveTimeAndDateCallBack saveTimeAndDateCallBack;
 
-    public TaskAdapter(List<TaskModel> taskModelList, ToolbarOverlapCallBack toolbarOverlapCallBack) {
+    public TaskAdapter(List<TaskModel> taskModelList,
+                       ToolbarOverlapCallBack toolbarOverlapCallBack,
+                       SaveTimeAndDateCallBack saveTimeAndDateCallBack
+    ) {
         this.taskModelList = taskModelList;
         this.toolbarOverlapCallBack = toolbarOverlapCallBack;
-//        this.deleteNoteInterface = deleteNoteInterface;
+        this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
     }
 
     @NonNull
@@ -47,10 +54,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 toolbarOverlapCallBack.onNoteSingleClick(position);
-//                deleteNoteInterface.DeleteNote(position);
             }
         });
 
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView title = v.findViewById(R.id.title);
+                String newTitle = title.getText().toString().trim();
+                TextView note = v.findViewById(R.id.note);
+                String newNote = note.getText().toString().trim();
+                Intent i = new Intent(v.getContext(), TaskActivity.class);
+                i.putExtra("message", newTitle);
+                i.putExtra("message1", newNote);
+                ((Activity)v.getContext()).startActivityForResult(i,1);
+            }
+        });
     }
 
     public void updateAdapter() {
@@ -74,6 +93,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             mCardView = itemView.findViewById(R.id.mCardView);
             title = itemView.findViewById(R.id.title);
             note = itemView.findViewById(R.id.note);
+
 
         }
     }

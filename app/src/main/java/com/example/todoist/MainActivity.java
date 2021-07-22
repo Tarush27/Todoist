@@ -1,6 +1,5 @@
 package com.example.todoist;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,17 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -45,9 +42,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     Toolbar actionbarOverlap;
     TextView actionbarText;
     FloatingActionButton fab;
-    Button switch_btn;
-    SwitchCompat mySwitch;
-    String title, note;
+    String title, note, newTitle,newNote;
     ImageView cross_icon;
     int longPressed;
     int singlePressed;
@@ -55,54 +50,10 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     ImageView list;
     NavigationView nav_view;
 
-    //    String date,time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-//            setTheme(R.style.DarkTheme);
-//        }
-//        else{
-//            setTheme(R.style.AppTheme);
-//        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        switch_btn = findViewById(R.id.switch_btn);
-//        mySwitch = findViewById(R.id.mySwitch);
-//        SharedPreferences sp = getSharedPreferences("Mode", MODE_PRIVATE);
-//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sp.edit();
-//        final boolean isDarkMode = sp.getBoolean("isDarkMode", true);
-//        if (isDarkMode) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//            mySwitch.setChecked(true);
-//        }
-//        SharedPreferences sharedPrefs = getSharedPreferences("mode",MODE_PRIVATE);
-//        final boolean isDark = sharedPrefs.getBoolean("isDarkMode",true);
-//        if (isDark){
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//            mySwitch.setChecked(true);
-//        }
-//        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    SharedPreferences.Editor editor = getSharedPreferences("mode",MODE_PRIVATE).edit();
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                    mySwitch.setChecked(true);
-//                    editor.putBoolean("isDarkMode",true);
-//                    editor.apply();
-//                }
-//                else{
-//                    SharedPreferences.Editor editor = getSharedPreferences("mode",MODE_PRIVATE).edit();
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                    mySwitch.setChecked(false);
-//                    editor.putBoolean("isDarkMode",false);
-//                    editor.apply();
-//                }
-//                finish();
-//                startActivity(new Intent(MainActivity.this, MainActivity.this.getClass()));
-//
-//            }
-//        });
         drawerLayout = findViewById(R.id.drawerLayout);
         nav_view = findViewById(R.id.nav_view);
         linearLayoutToolbar = findViewById(R.id.linearLayoutToolbar);
@@ -124,34 +75,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             return true;
         });
 
-//        SharedPreferences sp = getSharedPreferences("Mode", MODE_PRIVATE);
-//        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sp.edit();
-//        final boolean isDarkMode = sp.getBoolean("DM", false);
-//        if (isDarkMode) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//            switch_btn.setClickable(true);
-//            switch_btn.setEnabled(true);
-//        }
-//        switch_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                  switch_btn.setClickable(true);
-//                    switch_btn.setEnabled(true);
-//                    editor.putBoolean("DM", true);
-//                    editor.apply();
-//                } else {
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                  switch_btn.setClickable(false);
-//                    switch_btn.setEnabled(false);
-//                    editor.putBoolean("DM", false);
-//                    editor.apply();
-//                }
-//
-//
-//            }
-//        });
         fab.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, TaskActivity.class);
             startActivityForResult(i, 1);
@@ -160,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         loadData();
 
         recyclerView = findViewById(R.id.recyclerView);
-        taskAdapter = new TaskAdapter(taskModelList, this);
+        taskAdapter = new TaskAdapter(taskModelList, this, this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -220,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             if (data != null) {
                 title = data.getStringExtra("message");
                 note = data.getStringExtra("message1");
+//                newTitle = data.getStringExtra("message");
+//                newNote = data.getStringExtra("message1");
+//                title = newTitle;
+//                note = newNote;
                 prepareTaskList(title, note);
                 taskAdapter.updateAdapter();
             }
@@ -262,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
 
     @Override
     public void onSaveTimeAndDate(String date, String time) {
-        taskModelList.get(longPressed).setNote(date);
-        taskModelList.get(longPressed).setNote(time);
+        taskModelList.get(longPressed).setDate(date);
+        taskModelList.get(longPressed).setTime(time);
         taskAdapter.updateAdapter();
     }
 
@@ -290,28 +217,12 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 return true;
             case R.id.reminder:
                 ReminderFragment reminderFragment = new ReminderFragment();
-//                reminderFragment.setSaveTimeAndDateCallBack((date, time) -> {
-//                    reminderFragment.dismiss();
-//                    this.date = date;
-//                    this.time = time;
-//                    taskModelList.get(longPressed).setNote(date);
-//                    Log.d("MainActivity",date + "");
-//                    taskModelList.get(longPressed).setNote(time);
-//                    Log.d("MainActivity",time + "");
-//                    taskAdapter.updateAdapter();
-//                });
-                reminderFragment.saveTimeAndDateCallBack.onSaveTimeAndDate(reminderFragment.date, reminderFragment.time);
+                reminderFragment.setSaveTimeAndDateCallBack(this);
                 reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");
-                return true;
-            case R.id.delete:
-//                taskModelList.remove(delNotePos);
-                return true;
-            case R.id.send:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }
