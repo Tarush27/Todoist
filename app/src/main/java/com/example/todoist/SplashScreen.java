@@ -11,17 +11,17 @@ import android.widget.ImageView;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static final int SPLASH_SCREEN = 5000;
-    Animation topAnim;
-    ImageView todoLogo;
+    private static final int SPLASH_SCREEN = 3000;
+//    Animation topAnim;
+//    ImageView todoLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        topAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.top_anim);
+//        topAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.top_anim);
 //        bottomAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.bottom_anim);
-        todoLogo = findViewById(R.id.todoLogo);
-        todoLogo.setAnimation(topAnim);
+//        todoLogo = findViewById(R.id.todoLogo);
+//        todoLogo.setAnimation(topAnim);
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashScreen.this,MainActivity.class));
             finish();

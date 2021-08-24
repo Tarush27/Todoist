@@ -24,11 +24,13 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
     Fragment fragment;
     TimeFragment timeFragment = new TimeFragment();
     PlaceFragment placeFragment = new PlaceFragment();
+//    Bundle b = new Bundle();
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Button save, cancel;
     SaveTimeAndDateCallBack saveTimeAndDateCallBack;
     String date, time;
+//    public static final String KEY_NAME = "date";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,9 +48,12 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
         frame_layout = view.findViewById(R.id.frameOne);
         fragmentManager = getChildFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frameOne,timeFragment);
+        fragmentTransaction.add(R.id.frameOne, timeFragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+//        b.putString(KEY_NAME,date);
+//        timeFragment.setArguments(b);
+        timeFragment.setSaveDateAndTime(ReminderFragment.this);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.time));
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#1E88E5"));
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"));
@@ -60,14 +65,14 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
                     case 0:
                         fragmentManager = getChildFragmentManager();
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frameOne,timeFragment);
-                        fragmentTransaction.commit();
-                        timeFragment.setSaveDateAndTime(ReminderFragment.this);
+//                        b.putString(KEY_NAME, date);
+                        fragmentTransaction.replace(R.id.frameOne, timeFragment).commit();
+//                        timeFragment.setArguments(b);
                         break;
                     case 1:
                         fragmentManager = getChildFragmentManager();
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frameOne,placeFragment);
+                        fragmentTransaction.replace(R.id.frameOne, placeFragment);
                         fragmentTransaction.commit();
                         break;
                 }
@@ -84,15 +89,17 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
             }
         });
 
-        save.setOnClickListener(v -> saveTimeAndDateCallBack.onSaveTimeAndDate(date, time));
+        save.setOnClickListener(v -> {
+            saveTimeAndDateCallBack.onSaveTimeAndDate(date, time);
+            dismiss();
+        });
+
 
         cancel.setOnClickListener(v -> dismiss());
     }
 
     void setSaveTimeAndDateCallBack(SaveTimeAndDateCallBack saveTimeAndDateCallBack) {
         this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
-
-
     }
 
 

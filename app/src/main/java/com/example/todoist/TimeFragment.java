@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +28,20 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 public class TimeFragment extends Fragment {
 
-
+    public static final String KEY_NAME = "date";
+    public static final String TAG = "TimeFragment";
     TextView datePicker, timePicker;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     SaveDateAndTime saveDateAndTime;
     String date, time;
+    String defaultDate;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        defaultDate = getArguments().getString(KEY_NAME);
         return inflater.inflate(R.layout.time_fragment, container, false);
     }
 
@@ -52,7 +56,7 @@ public class TimeFragment extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
-        String defaultDate = new SimpleDateFormat("dd MMM", Locale.getDefault()).format(new Date());
+        defaultDate = new SimpleDateFormat("dd MMM",Locale.getDefault()).format(new Date());
         datePicker.setText(defaultDate);
         datePicker.setOnClickListener(v -> {
             PopupMenu p = new PopupMenu(view.getContext(), datePicker);
@@ -69,7 +73,6 @@ public class TimeFragment extends Fragment {
                 datePickerDialog.show();
                 datePickerDialog.getButton(BUTTON_NEGATIVE).setTextColor(Color.rgb(0, 100, 0));
                 datePickerDialog.getButton(BUTTON_POSITIVE).setTextColor(Color.rgb(0, 100, 0));
-
                 return true;
             });
             p.show();
@@ -101,5 +104,6 @@ public class TimeFragment extends Fragment {
     void setSaveDateAndTime(SaveDateAndTime saveDateAndTime) {
         this.saveDateAndTime = saveDateAndTime;
     }
+
 
 }

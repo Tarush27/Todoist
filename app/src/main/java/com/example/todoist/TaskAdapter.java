@@ -1,5 +1,6 @@
 package com.example.todoist;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,10 +40,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         TaskModel taskModel = taskModelList.get(position);
         holder.title.setText(taskModel.getTitle());
         holder.note.setText(taskModel.getNote());
+        holder.saveDate.setText(taskModel.getDate());
         holder.mCardView.setCardBackgroundColor(taskModel.getColor());
         holder.mCardView.setStrokeColor(taskModel.getBorderColor());
         holder.mCardView.setStrokeWidth(4);
@@ -67,7 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 Intent i = new Intent(v.getContext(), TaskActivity.class);
                 i.putExtra("message", newTitle);
                 i.putExtra("message1", newNote);
-                ((Activity)v.getContext()).startActivityForResult(i,1);
+                ((Activity) v.getContext()).startActivityForResult(i, 1);
             }
         });
     }
@@ -86,6 +88,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         MaterialCardView mCardView;
         TextView title;
         TextView note;
+        TextView saveDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +96,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             mCardView = itemView.findViewById(R.id.mCardView);
             title = itemView.findViewById(R.id.title);
             note = itemView.findViewById(R.id.note);
+            saveDate = itemView.findViewById(R.id.saveDate);
 
 
         }

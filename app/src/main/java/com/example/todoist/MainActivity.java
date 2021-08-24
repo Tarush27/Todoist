@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     Toolbar actionbarOverlap;
     TextView actionbarText;
     FloatingActionButton fab;
-    String title, note, newTitle,newNote;
+    String title, note;
     ImageView cross_icon;
     int longPressed;
     int singlePressed;
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         recyclerView = findViewById(R.id.recyclerView);
         taskAdapter = new TaskAdapter(taskModelList, this, this);
         recyclerView.setAdapter(taskAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -143,10 +144,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             if (data != null) {
                 title = data.getStringExtra("message");
                 note = data.getStringExtra("message1");
-//                newTitle = data.getStringExtra("message");
-//                newNote = data.getStringExtra("message1");
-//                title = newTitle;
-//                note = newNote;
                 prepareTaskList(title, note);
                 taskAdapter.updateAdapter();
             }
@@ -166,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         longPressed = position;
         linearLayoutToolbar.setVisibility(View.INVISIBLE);
         setSupportActionBar(actionbarOverlap);
+        taskModelList.get(longPressed).setBorderColor(Color.BLACK);
         actionbarOverlap.setVisibility(View.VISIBLE);
         cross_icon.setVisibility(View.VISIBLE);
-        taskModelList.get(longPressed).setBorderColor(Color.BLACK);
         cross_icon.setOnClickListener(v -> {
             linearLayoutToolbar.setVisibility(View.VISIBLE);
             actionbarOverlap.setVisibility(View.INVISIBLE);
@@ -181,9 +178,9 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     @Override
     public void onNoteSingleClick(int position) {
         singlePressed = position;
+        taskModelList.get(singlePressed).setBorderColor(Color.WHITE);
         actionbarOverlap.setVisibility(View.INVISIBLE);
         linearLayoutToolbar.setVisibility(View.VISIBLE);
-        taskModelList.get(singlePressed).setBorderColor(Color.WHITE);
         taskAdapter.updateAdapter();
     }
 
