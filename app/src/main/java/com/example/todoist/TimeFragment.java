@@ -1,13 +1,14 @@
 package com.example.todoist;
 
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,26 +23,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.DialogInterface.BUTTON_NEGATIVE;
-import static android.content.DialogInterface.BUTTON_POSITIVE;
-
 
 public class TimeFragment extends Fragment {
-
-    public static final String KEY_NAME = "date";
-    public static final String TAG = "TimeFragment";
+    public static final String key = "DATE";
     TextView datePicker, timePicker;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     SaveDateAndTime saveDateAndTime;
     String date, time;
-    String defaultDate;
-
+    String defaultDate, defaultTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        defaultDate = getArguments().getString(KEY_NAME);
+//        date = getArguments().getString(key);
         return inflater.inflate(R.layout.time_fragment, container, false);
     }
 
@@ -56,8 +51,14 @@ public class TimeFragment extends Fragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
-        defaultDate = new SimpleDateFormat("dd MMM",Locale.getDefault()).format(new Date());
+        if (date == null) {
+            defaultDate = new SimpleDateFormat("dd MMM", Locale.getDefault()).format(new Date());
+        } else {
+//            date = new SimpleDateFormat("dd MMM", Locale.getDefault()).format(new Date());
+            defaultDate = date;
+        }
         datePicker.setText(defaultDate);
+        saveDateAndTime.onSaveDate(defaultDate);
         datePicker.setOnClickListener(v -> {
             PopupMenu p = new PopupMenu(view.getContext(), datePicker);
             p.getMenuInflater().inflate(R.menu.popup, p.getMenu());
@@ -78,6 +79,9 @@ public class TimeFragment extends Fragment {
             p.show();
 
         });
+        defaultTime = new SimpleDateFormat("HH:mm aa", Locale.getDefault()).format(new Date());
+        timePicker.setText(defaultTime);
+        saveDateAndTime.onSaveTime(defaultTime);
         timePicker.setOnClickListener(v -> {
             PopupMenu p1 = new PopupMenu(view.getContext(), timePicker);
             p1.getMenuInflater().inflate(R.menu.popup_one, p1.getMenu());

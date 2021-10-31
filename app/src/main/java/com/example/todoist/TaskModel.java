@@ -3,9 +3,7 @@ package com.example.todoist;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
-public class TaskModel {
+public class TaskModel implements Parcelable {
     String title, note, date, time;
     int color;
     int borderColor;
@@ -16,6 +14,27 @@ public class TaskModel {
         this.color = color;
     }
 
+
+    protected TaskModel(Parcel in) {
+        title = in.readString();
+        note = in.readString();
+        date = in.readString();
+        time = in.readString();
+        color = in.readInt();
+        borderColor = in.readInt();
+    }
+
+    public static final Creator<TaskModel> CREATOR = new Creator<TaskModel>() {
+        @Override
+        public TaskModel createFromParcel(Parcel in) {
+            return new TaskModel(in);
+        }
+
+        @Override
+        public TaskModel[] newArray(int size) {
+            return new TaskModel[size];
+        }
+    };
 
     public int getBorderColor() {
         return borderColor;
@@ -65,5 +84,31 @@ public class TaskModel {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "TaskModel{" +
+                "title='" + title + '\'' +
+                ", note='" + note + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", color=" + color +
+                ", borderColor=" + borderColor +
+                '}';
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(title);
+        dest.writeString(note);
+        dest.writeString(date);
+        dest.writeString(time);
+        dest.writeInt(color);
+        dest.writeInt(borderColor);
+    }
 }

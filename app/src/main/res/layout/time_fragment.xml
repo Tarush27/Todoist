@@ -39,7 +39,7 @@
             android:layout_marginLeft="22dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="22dp"
-            android:text="4:30pm"
+            android:text=""
             android:textColor="#000000"
             android:textSize="20sp"
             app:drawableRightCompat="@drawable/ic_arrow_drop_down" />

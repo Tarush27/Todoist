@@ -2,18 +2,18 @@ package com.example.todoist;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
@@ -44,7 +44,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         TaskModel taskModel = taskModelList.get(position);
         holder.title.setText(taskModel.getTitle());
         holder.note.setText(taskModel.getNote());
-        holder.saveDate.setText(taskModel.getDate());
+        if (taskModel.date != null && taskModel.time != null) {
+            holder.chip.setText(new StringBuilder().append(taskModel.getDate()).append(", ").
+                    append(taskModel.getTime()).toString());
+            holder.chip.setVisibility(View.VISIBLE);
+            Log.d("TaskAdapter",taskModel.toString());
+        } else{
+            holder.chip.setVisibility(View.GONE);
+            Log.d("TaskAdapter",taskModel.toString());
+        }
+
         holder.mCardView.setCardBackgroundColor(taskModel.getColor());
         holder.mCardView.setStrokeColor(taskModel.getBorderColor());
         holder.mCardView.setStrokeWidth(4);
@@ -88,7 +97,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         MaterialCardView mCardView;
         TextView title;
         TextView note;
-        TextView saveDate;
+        Chip chip;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,8 +105,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             mCardView = itemView.findViewById(R.id.mCardView);
             title = itemView.findViewById(R.id.title);
             note = itemView.findViewById(R.id.note);
-            saveDate = itemView.findViewById(R.id.saveDate);
-
+            chip = itemView.findViewById(R.id.chip);
 
         }
     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayoutToolbar"
-    android:background="?attr/background_color"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:orientation="vertical">
@@ -24,7 +24,7 @@
         android:layout_marginTop="-48dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/app_name"
-        android:textColor="?attr/text_color"
+        android:textColor="@color/black"
         android:textSize="25sp" />
 
 </LinearLayout>

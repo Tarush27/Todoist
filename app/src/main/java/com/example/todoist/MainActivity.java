@@ -8,17 +8,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -49,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     DrawerLayout drawerLayout;
     ImageView list;
     NavigationView nav_view;
+    public static final String KEY = "tm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +211,10 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 fragment.show(getSupportFragmentManager(), "Dialog Fragment");
                 return true;
             case R.id.reminder:
+                TaskModel tm = taskModelList.get(longPressed);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(KEY,tm);
+                Log.d("MainActivity",tm + "");
                 ReminderFragment reminderFragment = new ReminderFragment();
                 reminderFragment.setSaveTimeAndDateCallBack(this);
                 reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");

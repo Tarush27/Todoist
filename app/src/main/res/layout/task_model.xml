@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -9,8 +10,12 @@
         android:id="@+id/mCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:backgroundTint="?attr/cardBackground"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:padding="5dp"
         app:cardCornerRadius="6dp"
         app:cardElevation="10dp"
@@ -33,14 +38,26 @@
             android:layout_marginTop="41dp"
             android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:id="@+id/saveDate"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="67dp"
+            android:layout_marginTop="68dp"
             android:layout_marginBottom="10dp"
-            android:visibility="invisible" />
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip"
+                style="@style/ThinnerChip"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipIcon="@drawable/ic_clock"
+                tools:text="27/08/2021, 4:30pm">
+
+            </com.google.android.material.chip.Chip>
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

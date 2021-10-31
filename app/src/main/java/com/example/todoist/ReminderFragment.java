@@ -2,6 +2,7 @@ package com.example.todoist;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +16,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.tabs.TabLayout;
 
 public class ReminderFragment extends DialogFragment implements SaveDateAndTime {
-
     TabLayout tabLayout;
     FrameLayout frame_layout;
     Fragment fragment;
     TimeFragment timeFragment = new TimeFragment();
     PlaceFragment placeFragment = new PlaceFragment();
-//    Bundle b = new Bundle();
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Button save, cancel;
     SaveTimeAndDateCallBack saveTimeAndDateCallBack;
     String date, time;
-//    public static final String KEY_NAME = "date";
+    Bundle bundle = new Bundle();
+    public static final String key = "DATE";
+    public static final String KEY = "tm";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,10 +51,12 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
         fragmentManager = getChildFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frameOne, timeFragment);
+        bundle.getParcelable(KEY);
+        Log.d("ReminderFragment",bundle + " ");
+//        bundle.putString(key, date);
+//        timeFragment.setArguments(bundle);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
-//        b.putString(KEY_NAME,date);
-//        timeFragment.setArguments(b);
         timeFragment.setSaveDateAndTime(ReminderFragment.this);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.time));
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#1E88E5"));
@@ -65,9 +69,8 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
                     case 0:
                         fragmentManager = getChildFragmentManager();
                         fragmentTransaction = fragmentManager.beginTransaction();
-//                        b.putString(KEY_NAME, date);
-                        fragmentTransaction.replace(R.id.frameOne, timeFragment).commit();
-//                        timeFragment.setArguments(b);
+                        fragmentTransaction.replace(R.id.frameOne, timeFragment);
+                        fragmentTransaction.commit();
                         break;
                     case 1:
                         fragmentManager = getChildFragmentManager();
@@ -112,4 +115,5 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
     public void onSaveTime(String time) {
         this.time = time;
     }
+
 }
