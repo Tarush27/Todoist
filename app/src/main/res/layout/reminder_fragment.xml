@@ -20,7 +20,6 @@
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/add_reminder"
-            android:textColor="@color/black"
             android:textSize="20sp" />
 
         <com.google.android.material.tabs.TabLayout

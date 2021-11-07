@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/add.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/bg_gradient.xml" value="0.371875" />
+        <entry key="app/src/main/res/drawable/ic_alert.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/ic_clock.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/list_drawable.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/splash_bg.xml" value="0.371875" />
@@ -14,16 +15,19 @@
         <entry key="app/src/main/res/layout/date_and_time.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/fragment_color_selector.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/items.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/linear_layout_overlap.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/linear_layout_overlap.xml" value="0.33" />
         <entry key="app/src/main/res/layout/material_chips.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/nav_header.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.33" />
         <entry key="app/src/main/res/layout/place_fragment.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/reminder_fragment.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/task_layout.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/task_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/task_layout_toolbar.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/task_model.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/time_fragment.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/menu/popup.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/menu/popup_one.xml" value="0.35025641025641024" />
       </map>
     </option>
   </component>
