@@ -213,9 +213,10 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
             case R.id.reminder:
                 TaskModel tm = taskModelList.get(longPressed);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(KEY,tm);
-                Log.d("MainActivity",tm + "");
+                bundle.putParcelable(KEY, tm);
+                Log.d("MainActivity", tm + "");
                 ReminderFragment reminderFragment = new ReminderFragment();
+                reminderFragment.setArguments(bundle);
                 reminderFragment.setSaveTimeAndDateCallBack(this);
                 reminderFragment.show(getSupportFragmentManager(), "Reminder Fragment");
                 return true;

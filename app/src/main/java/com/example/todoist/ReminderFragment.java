@@ -30,8 +30,6 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
     Button save, cancel;
     SaveTimeAndDateCallBack saveTimeAndDateCallBack;
     String date, time;
-    Bundle bundle = new Bundle();
-    public static final String key = "DATE";
     public static final String KEY = "tm";
 
     @Override
@@ -51,10 +49,12 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
         fragmentManager = getChildFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frameOne, timeFragment);
-        bundle.getParcelable(KEY);
-        Log.d("ReminderFragment",bundle + " ");
-//        bundle.putString(key, date);
-//        timeFragment.setArguments(bundle);
+        if (getArguments() != null) {
+            Log.d("ReminderFragment", getArguments().getParcelable(KEY) + " ");
+            final Bundle bundle = getArguments();
+            timeFragment.setArguments(bundle);
+        }
+
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
         timeFragment.setSaveDateAndTime(ReminderFragment.this);

@@ -25,7 +25,7 @@ import java.util.Locale;
 
 
 public class TimeFragment extends Fragment {
-    public static final String key = "DATE";
+    public static final String KEY = "date";
     TextView datePicker, timePicker;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     SaveDateAndTime saveDateAndTime;
@@ -33,10 +33,12 @@ public class TimeFragment extends Fragment {
     String defaultDate, defaultTime;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        date = getArguments().getString(key);
+        if (getArguments() != null) {
+            date = String.valueOf(getArguments().getParcelable(KEY));
+        }
         return inflater.inflate(R.layout.time_fragment, container, false);
     }
 
