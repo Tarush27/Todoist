@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import java.util.Locale;
 
 
 public class TimeFragment extends Fragment {
-    public static final String KEY = "date";
+    public static final String KEY = "tm";
     TextView datePicker, timePicker;
     DatePickerDialog.OnDateSetListener onDateSetListener;
     SaveDateAndTime saveDateAndTime;
@@ -37,7 +38,10 @@ public class TimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (getArguments() != null) {
-            date = String.valueOf(getArguments().getParcelable(KEY));
+            final TaskModel tm = getArguments().getParcelable(KEY);
+            Log.d("TimeFragment", tm.toString());
+            date = tm.date;
+            time = tm.time;
         }
         return inflater.inflate(R.layout.time_fragment, container, false);
     }
@@ -56,7 +60,6 @@ public class TimeFragment extends Fragment {
         if (date == null) {
             defaultDate = new SimpleDateFormat("dd MMM", Locale.getDefault()).format(new Date());
         } else {
-//            date = new SimpleDateFormat("dd MMM", Locale.getDefault()).format(new Date());
             defaultDate = date;
         }
         datePicker.setText(defaultDate);
@@ -81,7 +84,12 @@ public class TimeFragment extends Fragment {
             p.show();
 
         });
-        defaultTime = new SimpleDateFormat("HH:mm aa", Locale.getDefault()).format(new Date());
+        if (time == null){
+            defaultTime = new SimpleDateFormat("HH:mm aa", Locale.getDefault()).format(new Date());
+        }
+        else{
+            defaultTime = time;
+        }
         timePicker.setText(defaultTime);
         saveDateAndTime.onSaveTime(defaultTime);
         timePicker.setOnClickListener(v -> {
