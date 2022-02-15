@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class TaskModel implements Parcelable {
-    String title, note, date, time;
+    String title, note, date, time, place;
     int color;
     int borderColor;
 
@@ -12,6 +12,7 @@ public class TaskModel implements Parcelable {
         this.title = title;
         this.note = note;
         this.color = color;
+
     }
 
 
@@ -20,6 +21,7 @@ public class TaskModel implements Parcelable {
         note = in.readString();
         date = in.readString();
         time = in.readString();
+        place = in.readString();
         color = in.readInt();
         borderColor = in.readInt();
     }
@@ -44,9 +46,9 @@ public class TaskModel implements Parcelable {
         this.borderColor = borderColor;
     }
 
-    public int getColor() {
+/*    public int getColor() {
         return color;
-    }
+    }*/
 
     public void setColor(int color) {
         this.color = color;
@@ -76,6 +78,14 @@ public class TaskModel implements Parcelable {
         this.time = time;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -91,6 +101,7 @@ public class TaskModel implements Parcelable {
                 ", note='" + note + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
+                ", place='" + place + '\'' +
                 ", color=" + color +
                 ", borderColor=" + borderColor +
                 '}';
@@ -108,6 +119,7 @@ public class TaskModel implements Parcelable {
         dest.writeString(note);
         dest.writeString(date);
         dest.writeString(time);
+        dest.writeString(place);
         dest.writeInt(color);
         dest.writeInt(borderColor);
     }

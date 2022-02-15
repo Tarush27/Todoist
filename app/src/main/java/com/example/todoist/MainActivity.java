@@ -81,7 +81,10 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         loadData();
 
         recyclerView = findViewById(R.id.recyclerView);
-        taskAdapter = new TaskAdapter(taskModelList, this, this);
+        taskAdapter = new TaskAdapter(taskModelList,
+                this,
+                this,
+                this);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -150,8 +153,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
     }
 
     private void prepareTaskList(String title, String note) {
-        int color = Color.WHITE;
-        TaskModel taskModel = new TaskModel(title, note, color);
+        TaskModel taskModel = new TaskModel(title, note, R.color.cardBackground);
         taskModelList.add(0, taskModel);
     }
 
@@ -189,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
         taskAdapter.updateAdapter();
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -224,5 +227,6 @@ public class MainActivity extends AppCompatActivity implements ToolbarOverlapCal
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
 }

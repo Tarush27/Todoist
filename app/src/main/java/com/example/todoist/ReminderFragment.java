@@ -29,7 +29,8 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
     FragmentTransaction fragmentTransaction;
     Button save, cancel;
     SaveTimeAndDateCallBack saveTimeAndDateCallBack;
-    String date, time;
+    //    SavePlaceCallback savePlaceCallback;
+    String date, time, place;
     public static final String KEY = "tm";
 
     @Override
@@ -58,6 +59,7 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
         timeFragment.setSaveDateAndTime(ReminderFragment.this);
+//        placeFragment.setSavePlace(ReminderFragment.this);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.time));
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#1E88E5"));
         tabLayout.setTabTextColors(Color.parseColor("#000000"), Color.parseColor("#000000"));
@@ -94,6 +96,7 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
 
         save.setOnClickListener(v -> {
             saveTimeAndDateCallBack.onSaveTimeAndDate(date, time);
+//            savePlaceCallback.savePlace(place);
             dismiss();
         });
 
@@ -116,4 +119,8 @@ public class ReminderFragment extends DialogFragment implements SaveDateAndTime 
         this.time = time;
     }
 
+/*    @Override
+    public void onSavePlace(String place) {
+        this.place = place;
+    }*/
 }

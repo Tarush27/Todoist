@@ -18,12 +18,12 @@
         <entry key="app/src/main/res/layout/linear_layout_overlap.xml" value="0.33" />
         <entry key="app/src/main/res/layout/material_chips.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/place_fragment.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/place_fragment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/reminder_fragment.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/task_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/task_layout_toolbar.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/task_model.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/time_fragment.xml" value="0.35572916666666665" />
+        <entry key="app/src/main/res/layout/task_model.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/time_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/menu/popup.xml" value="0.35572916666666665" />

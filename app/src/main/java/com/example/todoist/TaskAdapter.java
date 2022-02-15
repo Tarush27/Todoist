@@ -2,6 +2,7 @@ package com.example.todoist;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -18,15 +20,17 @@ import com.google.android.material.chip.Chip;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
-
+    private final Context context;
     private final List<TaskModel> taskModelList;
     private final ToolbarOverlapCallBack toolbarOverlapCallBack;
     SaveTimeAndDateCallBack saveTimeAndDateCallBack;
 
     public TaskAdapter(List<TaskModel> taskModelList,
                        ToolbarOverlapCallBack toolbarOverlapCallBack,
-                       SaveTimeAndDateCallBack saveTimeAndDateCallBack
+                       SaveTimeAndDateCallBack saveTimeAndDateCallBack,
+                       Context context
     ) {
+        this.context = context;
         this.taskModelList = taskModelList;
         this.toolbarOverlapCallBack = toolbarOverlapCallBack;
         this.saveTimeAndDateCallBack = saveTimeAndDateCallBack;
@@ -48,13 +52,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             holder.chip.setText(new StringBuilder().append(taskModel.getDate()).append(", ").
                     append(taskModel.getTime()).toString());
             holder.chip.setVisibility(View.VISIBLE);
-            Log.d("TaskAdapter",taskModel.toString());
-        } else{
+            Log.d("TaskAdapter", taskModel.toString());
+        } else {
             holder.chip.setVisibility(View.GONE);
-            Log.d("TaskAdapter",taskModel.toString());
+            Log.d("TaskAdapter", taskModel.toString());
         }
 
-        holder.mCardView.setCardBackgroundColor(taskModel.getColor());
+        holder.mCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.cardBackground));
         holder.mCardView.setStrokeColor(taskModel.getBorderColor());
         holder.mCardView.setStrokeWidth(4);
         holder.mCardView.setOnLongClickListener(v -> {
